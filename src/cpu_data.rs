@@ -32,10 +32,7 @@ pub fn observe_cpu_data(show_brand: &bool, show_freq: &bool) -> Result<(), Box<i
         if event::poll(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL)? {
             if let Event::Key(key_event) = event::read()? {
                 match (key_event.code, key_event.modifiers) {
-                    (KeyCode::Char('c'), KeyModifiers::CONTROL) => {
-                        println!("| CPU data observing ended.");
-                        break;
-                    },
+                    (KeyCode::Char('c'), KeyModifiers::CONTROL) => break,
                     _ => {} // nothing to do
                 }
             }
