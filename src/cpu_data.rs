@@ -1,4 +1,4 @@
-use std::{ io::{self, stdout}, thread };
+use std::{ io::{self, stdout}, thread, time::Duration };
 
 use sysinfo::{ CpuRefreshKind, RefreshKind, System };
 use crossterm::{ cursor, event::{self, Event, KeyCode, KeyModifiers}, execute, style::Stylize, terminal::{self, EnterAlternateScreen, LeaveAlternateScreen} };
@@ -29,11 +29,12 @@ pub fn observe_cpu_data(show_brand: &bool, show_freq: &bool) -> Result<(), Box<i
     execute!(stdout(), EnterAlternateScreen)?;
 
     loop {
-        if event::poll(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL)? {
+        if event::poll(Duration::from_millis(100))? {
+            // read key codes
             if let Event::Key(key_event) = event::read()? {
                 match (key_event.code, key_event.modifiers) {
-                    (KeyCode::Char('c'), KeyModifiers::CONTROL) => break,
-                    _ => {} // nothing to do
+                    (KeyCode::Char('c'), KeyModifiers::CONTROL) => break, // CTRL + C
+                    _ => {}                                               // nothing to do
                 }
             }
 
