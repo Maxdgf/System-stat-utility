@@ -1,4 +1,4 @@
-use std::{io::{ self, stdout }, thread};
+use std::{io::{ self, stdout }, thread, time::Duration};
 
 use crossterm::{
     cursor, 
@@ -34,7 +34,7 @@ pub fn observe_ram_usage() -> Result<(), Box<io::Error>> {
     execute!(stdout(), EnterAlternateScreen)?; // enter to alternate screen in terminal
 
     loop {
-        if event::poll(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL)? {
+        if event::poll(Duration::from_millis(100))? {
             if let Event::Key(key_event) = event::read()? {
                 match (key_event.code, key_event.modifiers) {
                     (KeyCode::Char('c'), KeyModifiers::CONTROL) => break,
@@ -49,16 +49,19 @@ pub fn observe_ram_usage() -> Result<(), Box<io::Error>> {
                 cursor::MoveTo(0, 0),
                 terminal::Clear(terminal::ClearType::All)
             )?;
-            
-            println!("| RAM usage: {}", system.used_memory());
-            println!("| RAM swap usage: {}", system.used_swap());
 
-            thread::sleep(sysinfo::MINIMUM_CPU_UPDATE_INTERVAL);
+            let ram_usage = system.used_memory() / 1073741824;    // current RAM usage in GB
+            let ram_swap_usage = system.used_swap() / 1073741824; // current RAM swap usage in GB
+            
+            println!("| RAM usage: {} GB", ram_usage);
+            println!("| RAM swap usage: {} GB", ram_swap_usage);
+
+            thread::sleep(Duration::from_millis(250));
         }
     }
 
-    terminal::disable_raw_mode()?; // disable terminal raw mode
-    execute!(stdout(), LeaveAlternateScreen)?;
+    terminal::disable_raw_mode()?;             // disable terminal raw mode
+    execute!(stdout(), LeaveAlternateScreen)?; // enter to alternate screen in terminal
 
     Ok(())
 }
