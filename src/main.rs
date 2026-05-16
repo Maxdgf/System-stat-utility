@@ -52,7 +52,7 @@ enum Command {
 }
 
 fn main() -> Result<(), Box<io::Error>> {
-    let args = Cli::parse();
+    let args = Cli::parse(); // parse args
 
     // match parsed commands
     match &args.command {
@@ -69,7 +69,9 @@ r" _____           _                       _        _
        |___/                                    v1.0.0          
                                    
 System stat is easy and helpful util, that helps you get varios data about your system. 
-- Developed by Maxdgf https://github.com/Maxdgf"
+- Developed by Maxdgf https://github.com/Maxdgf
+
+For get help type: system_stat --help"
             )
         }
         Some(Command::Sysdata) => {
