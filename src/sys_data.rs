@@ -1,5 +1,6 @@
 use sysinfo::System;
 
+/// System data
 pub struct SysData {
     pub name: String,
     pub kernel_version: String,
