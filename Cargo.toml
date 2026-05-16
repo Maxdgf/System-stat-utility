@@ -2,6 +2,8 @@
 name = "system_stat"
 version = "0.1.0"
 edition = "2024"
+description = "An easy and helpful util, that helps get varios data about system."
+repository = "https://github.com/Maxdgf/System-stat-utility"
 
 [dependencies]
 sysinfo = "0.39.0"
