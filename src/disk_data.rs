@@ -27,26 +27,27 @@ pub struct DiskKind {
     pub kind: String
 }
 
+/// Returns data about all disks.
 pub fn get_all_disks_data() -> Vec<Disk> {
     let disks = Disks::new_with_refreshed_list();
-    let mut disks_data: Vec<Disk> = Vec::new();
 
+    let mut disks_data: Vec<Disk> = Vec::new();
     for disk in &disks {
-        let name = disk.name().to_str();
-        let mount_point = disk.mount_point().to_str();
-        let file_system = disk.file_system().to_str();
-        let is_read_only = disk.is_read_only();
-        let is_removable = disk.is_removable();
-        let available_space = disk.available_space() / 1073741824;
-        let total_space = disk.total_space() / 1073741824;
-        let kind = disk.kind().to_string();
+        let name = disk.name().to_str();                  // disk name
+        let mount_point = disk.mount_point().to_str();    // disk mount point
+        let file_system = disk.file_system().to_str();    // disk file system
+        let is_read_only = disk.is_read_only();                   // is read only flag
+        let is_removable = disk.is_removable();                   // is removable flag
+        let available_space = disk.available_space() / 1073741824; // disk available space in GB
+        let total_space = disk.total_space() / 1073741824;         // disk total space in GB
+        let kind = disk.kind().to_string();                     // disk king
         
         // push disk data to result vector
         disks_data.push(
             Disk {
-                name: name.unwrap_or("Unknown").to_string(),               // disk name
-                mount_point: mount_point.unwrap_or("Unknown").to_string(), // disk mount point
-                file_system: file_system.unwrap_or("Unknown").to_string(), // disk file system
+                name: name.unwrap_or("Unknown").to_string(),
+                mount_point: mount_point.unwrap_or("Unknown").to_string(),
+                file_system: file_system.unwrap_or("Unknown").to_string(),
                 is_read_only: is_read_only,
                 is_removable: is_removable,
                 available_space: available_space,
@@ -60,22 +61,24 @@ pub fn get_all_disks_data() -> Vec<Disk> {
     return disks_data;
 }
 
+/// Returns all disks space data.
 pub fn get_disks_space_data() -> Vec<DiskSpace> {
     let disks = Disks::new_with_refreshed_list();
-    let mut disks_space: Vec<DiskSpace> = Vec::new();
 
+    let mut disks_space: Vec<DiskSpace> = Vec::new();
     for disk in &disks {
-        let name = disk.name().to_str();
-        let available_space = disk.available_space() / 1073741824;
-        let total_space = disk.total_space() / 1073741824;
+        let name = disk.name().to_str();                  // disk name
+        let available_space = disk.available_space() / 1073741824; // disk available space in GB
+        let total_space = disk.total_space() / 1073741824;         // disk total space in GB
+        let used_space = total_space - available_space;            // disk used space
 
         // push disk space data to result vector
         disks_space.push(
             DiskSpace {
-                name: name.unwrap_or("Unknown").to_string(),               // disk name
-                available_space: available_space, // disk available space
-                total_space: total_space,          // disk tottal space
-                used_space: total_space - available_space
+                name: name.unwrap_or("Unknown").to_string(),
+                available_space: available_space,
+                total_space: total_space,
+                used_space: used_space
             }
         )
     }
@@ -83,19 +86,20 @@ pub fn get_disks_space_data() -> Vec<DiskSpace> {
     return disks_space;
 }
 
+/// Returns all disks kind data.
 pub fn get_disks_kind() -> Vec<DiskKind> {
     let disks = Disks::new_with_refreshed_list();
-    let mut disks_kind: Vec<DiskKind> = Vec::new();
 
+    let mut disks_kind: Vec<DiskKind> = Vec::new();
     for disk in &disks {
-        let name = disk.name().to_str();
-        let kind = disk.kind().to_string();
+        let name = disk.name().to_str(); // disk name
+        let kind = disk.kind().to_string();    // disk kind
         
         // push disk data to result vector
         disks_kind.push(
             DiskKind {
-                name: name.unwrap_or("Unknown").to_string(), // disk name
-                kind: kind                                           // disk kind
+                name: name.unwrap_or("Unknown").to_string(),
+                kind: kind
             }
         );
     }

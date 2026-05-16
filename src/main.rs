@@ -77,6 +77,7 @@ For get help type: system_stat --help"
         Some(Command::Sysdata) => {
             let systemdata = sys_data::get_sys_data();
             
+            // print system data
             println!("| > System data");
             println!("|");
             println!("|\\________________");
@@ -93,6 +94,7 @@ For get help type: system_stat --help"
                 "full" => {
                     let disks_data = disk_data::get_all_disks_data();
 
+                    // print full data about disks
                     println!("| > Disks data");
                     println!("|");
 
@@ -116,6 +118,7 @@ For get help type: system_stat --help"
                 "space" => { 
                     let disks_space = disk_data::get_disks_space_data();
 
+                    // print disks data about space
                     println!("| > Disks space");
                     println!("|");
 
@@ -132,6 +135,7 @@ For get help type: system_stat --help"
                 "kind" => {
                     let disks_data = disk_data::get_disks_kind();
 
+                    // print disks data about disk kind
                     println!("| > Disks kind");
                     println!("|");
 
@@ -143,12 +147,12 @@ For get help type: system_stat --help"
                         println!("|");
                     }
                 }
-                _ => println!("ERROR unknown argument: {}", data)
+                _ => println!("ERROR, unknown argument: {}", data)
             }
         }
         Some(Command::Cpudata { observe, show_brand, show_freq }) => {
             if *observe {
-                cpu_data::observe_cpu_data(show_brand, show_freq)?; // start observing CPU data while CTRL + C not pressed
+                cpu_data::observe_cpu_data(show_brand, show_freq)?; // launch observing CPU data
             } else {
                 let cpu_data = cpu_data::get_cpu_data();
                 
@@ -164,7 +168,7 @@ For get help type: system_stat --help"
         }
         Some(Command::Ramdata { observe }) => {
             if *observe {
-                ram_data::observe_ram_usage()?;
+                ram_data::observe_ram_usage()?; // launch obseving RAM data
             } else {
                 let ram_base_data = ram_data::get_base_ram_data();
 
@@ -177,7 +181,7 @@ For get help type: system_stat --help"
                 println!("|");
             }
         }
-        None => println!("ERROR unknown command.")
+        None => println!("ERROR, unknown command.")
     }
 
     Ok(())
