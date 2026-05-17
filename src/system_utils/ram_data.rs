@@ -10,8 +10,8 @@ use sysinfo::{ MemoryRefreshKind, RefreshKind, System };
 
 /// RAM data
 pub struct Ram {
-    pub total_ram: u64,
-    pub total_swap: u64
+    pub total_ram: f64,
+    pub total_swap: f64
 }
 
 /// Returns base data about RAM.
@@ -22,8 +22,8 @@ pub fn get_base_ram_data() -> Ram {
     );
 
     return Ram {
-        total_ram: system.total_memory() / 1073741824, // total RAM size in GB
-        total_swap: system.total_swap() / 1073741824   // total RAM swap size in GB
+        total_ram: system.total_memory() as f64 / 1073741824.0, // total RAM size in GB
+        total_swap: system.total_swap() as f64 / 1073741824.0   // total RAM swap size in GB
     };
 }
 
@@ -54,12 +54,12 @@ pub fn observe_ram_usage() -> Result<(), Box<io::Error>> {
                 terminal::Clear(terminal::ClearType::All)
             )?;
 
-            let ram_usage = system.used_memory() / 1073741824;    // current RAM usage in GB
-            let ram_swap_usage = system.used_swap() / 1073741824; // current RAM swap usage in GB
+            let ram_usage = system.used_memory() as f64 / 1073741824.0;    // current RAM usage in GB
+            let ram_swap_usage = system.used_swap() as f64 / 1073741824.0; // current RAM swap usage in GB
             
             // print RAM data
-            println!("| RAM usage: {} GB", ram_usage);
-            println!("| RAM swap usage: {} GB", ram_swap_usage);
+            println!("| RAM usage: {:.2} GB", ram_usage);
+            println!("| RAM swap usage: {:.2} GB", ram_swap_usage);
 
             thread::sleep(Duration::from_millis(250)); // sleep 250 ms
         }

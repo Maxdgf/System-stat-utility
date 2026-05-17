@@ -1,7 +1,13 @@
 use std::{ io::{self, stdout}, thread, time::Duration };
 
 use sysinfo::{ CpuRefreshKind, RefreshKind, System };
-use crossterm::{ cursor, event::{self, Event, KeyCode, KeyModifiers}, execute, style::Stylize, terminal::{self, EnterAlternateScreen, LeaveAlternateScreen} };
+use crossterm::{ 
+    cursor, 
+    event::{ self, Event, KeyCode, KeyModifiers }, 
+    execute, 
+    style::Stylize, 
+    terminal::{ self, EnterAlternateScreen, LeaveAlternateScreen } 
+};
 
 pub struct Cpu {
     pub physical_cores_count: usize,
