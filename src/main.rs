@@ -2,6 +2,7 @@ mod sys_data;
 mod disk_data;
 mod cpu_data;
 mod ram_data;
+mod process_data;
 
 use std::io;
 use clap::{ Parser, Subcommand };
@@ -24,6 +25,7 @@ enum Command {
 
     /// Print disk(s) data
     Diskdata {
+        /// Data presentation mode
         #[arg(long, default_value_t=String::from("full"))]
         data: String
     },
@@ -48,6 +50,19 @@ enum Command {
         /// Observe RAM usage data
         #[arg(short, long, default_value_t=false)]
         observe: bool
+    },
+
+    /// Print process data
+    Processdata {
+        /// Show current process PID
+        #[arg(long, default_value_t=false)]
+        current_process_pid: bool,
+
+        #[arg(long, default_value_t=String::new())]
+        processes_by_name: String,
+
+        #[arg(short, long, default_value_t=false)]
+        exact: bool
     }
 }
 
@@ -147,7 +162,7 @@ For get help type: system_stat --help"
                         println!("|");
                     }
                 }
-                _ => println!("ERROR, unknown argument: {}", data)
+                _ => {} // nothing to do
             }
         }
         Some(Command::Cpudata { observe, show_brand, show_freq }) => {
@@ -181,7 +196,20 @@ For get help type: system_stat --help"
                 println!("|");
             }
         }
-        None => println!("ERROR, unknown command.")
+        Some(Command::Processdata { current_process_pid, processes_by_name, exact }) => {
+            if *current_process_pid {
+                let current_pid = process_data::get_current_process_pid();
+                println!("Current process PID: {}", current_pid);
+            } else {
+                let all_processes_by_name = process_data::get_processes_pid_by_name(processes_by_name, exact);
+
+                println!("| > Processes by name");
+                for process in all_processes_by_name {
+                    println!("| PID: {} - name: {}", process.pid, process.name);
+                }
+            }
+        }
+        None => {} // nothing to do
     }
 
     Ok(())
