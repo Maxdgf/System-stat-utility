@@ -63,7 +63,7 @@ pub fn observe_cpu_data(show_brand: &bool, show_freq: &bool) -> Result<(), Box<i
                     "| {}{}{} - usage: {}%", 
                     name, 
                     if *show_brand { format!(" - brand: {}", cpu.brand()) } else { String::new() }, 
-                    if *show_freq { format!(" - freq: {}GHz", cpu.frequency()) } else { String::new() },
+                    if *show_freq { format!(" - freq: {}MHz", cpu.frequency()) } else { String::new() },
                     usage
                 );
             }
