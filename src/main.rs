@@ -56,11 +56,13 @@ enum Command {
     Processdata {
         /// Show current process PID
         #[arg(long, default_value_t=false)]
-        current_process_pid: bool,
+        curr_proc_pid: bool,
 
+        /// Show processes by name
         #[arg(long, default_value_t=String::new())]
-        processes_by_name: String,
+        proc_name: String,
 
+        /// Show proceses exactly by name
         #[arg(short, long, default_value_t=false)]
         exact: bool
     }
@@ -101,7 +103,6 @@ For get help type: system_stat --help"
             println!("| - kernel version: {}", systemdata.kernel_version);
             println!("| - OS version:     {}", systemdata.os_version);
             println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-            println!("|");
         }
         Some(Command::Diskdata { data }) => {
             // match 'data' arg value - full, space and kind
@@ -125,10 +126,9 @@ For get help type: system_stat --help"
                         println!("| - used space:      {} GB", data.used_space);
                         println!("| - kind:            {}", data.kind);
                         println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-                        println!("|");
                     }
 
-                    println!("| # total disks count: {}", disks_data.len());
+                    print!("| # total disks count: {}", disks_data.len());
                 }
                 "space" => { 
                     let disks_space = disk_data::get_disks_space_data();
@@ -144,7 +144,6 @@ For get help type: system_stat --help"
                         println!("| - total space:     {} GB", data.total_space);
                         println!("| - used space:      {} GB", data.used_space);
                         println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-                        println!("|");
                     }
                 }
                 "kind" => {
@@ -159,7 +158,6 @@ For get help type: system_stat --help"
                         println!("| - name:            {}", data.name);
                         println!("| - kind:            {}", data.kind);
                         println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-                        println!("|");
                     }
                 }
                 _ => {} // nothing to do
@@ -177,8 +175,6 @@ For get help type: system_stat --help"
                 println!("| - CPU's count:          {}", cpu_data.cpus_count);
                 println!("| - physical cores count: {}", cpu_data.physical_cores_count);
                 println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-                println!("|");
-
             }
         }
         Some(Command::Ramdata { observe }) => {
@@ -193,19 +189,25 @@ For get help type: system_stat --help"
                 println!("| - total RAM:            {}", ram_base_data.total_ram);
                 println!("| - total RAM swap:       {}", ram_base_data.total_swap);
                 println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
-                println!("|");
             }
         }
-        Some(Command::Processdata { current_process_pid, processes_by_name, exact }) => {
-            if *current_process_pid {
+        Some(Command::Processdata { curr_proc_pid, proc_name, exact }) => {
+            if *curr_proc_pid {
                 let current_pid = process_data::get_current_process_pid();
                 println!("Current process PID: {}", current_pid);
             } else {
-                let all_processes_by_name = process_data::get_processes_pid_by_name(processes_by_name, exact);
+                let processes_by_name = process_data::get_processes_pid_by_name(proc_name, exact); // proceses by name
 
                 println!("| > Processes by name");
-                for process in all_processes_by_name {
-                    println!("| PID: {} - name: {}", process.pid, process.name);
+
+                // print processes with PID and name
+                if !processes_by_name.is_empty() {
+                    println!("| Found processes: {}", processes_by_name.len());
+                    for process in processes_by_name {
+                        println!("| PID: {} - name: {}", process.pid, process.name);
+                    }
+                } else {
+                    print!("| Processes by name: '{}' not found.", proc_name);
                 }
             }
         }
