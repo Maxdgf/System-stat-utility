@@ -1,4 +1,4 @@
-use sysinfo::{self, ProcessRefreshKind, RefreshKind, System};
+use sysinfo::{ self, ProcessRefreshKind, RefreshKind, System };
 
 pub struct Proc {
     pub pid: String,
@@ -7,7 +7,7 @@ pub struct Proc {
 
 /// Returns current process PID.
 pub fn get_current_process_pid() -> String {
-    let curent_process_pid = sysinfo::get_current_pid();
+    let curent_process_pid = sysinfo::get_current_pid(); // current pid
 
     match curent_process_pid {
         Ok(pid) => return pid.to_string(),
@@ -15,7 +15,9 @@ pub fn get_current_process_pid() -> String {
     }
 }
 
+/// Returns processes PID by name.
 pub fn get_processes_pid_by_name(name: &str, is_exact: &bool) -> Vec<Proc> {
+    // refresh with processes specifics
     let system = System::new_with_specifics(
         RefreshKind::nothing().with_processes(ProcessRefreshKind::everything())
     );
