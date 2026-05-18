@@ -1,3 +1,10 @@
+//  __________________________________________________________
+// |                    System stat                          |
+// | Simple and helpful CLI utility to browse computer data. |
+// ‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾
+// | -> by Maxdgf - https://www.github.com/Maxdgf
+// | last update at: 18.05.2026
+
 mod system_utils;
 
 use std::io;
@@ -114,7 +121,7 @@ For get help type: system_stat --help"
             )
         }
         Some(Command::SysData) => {
-            let systemdata = sys_data::get_sys_data();
+            let systemdata = sys_data::get_sys_data(); // get system data
             
             // print system data
             println!("| > System data");
@@ -130,7 +137,7 @@ For get help type: system_stat --help"
             // match 'data' arg value - full, space and kind
             match data.as_str() {
                 "full" => {
-                    let disks_data = disk_data::get_all_disks_data();
+                    let disks_data = disk_data::get_all_disks_data(); // get all disks data
 
                     // print full data about disks
                     println!("| > Disks data");
@@ -153,7 +160,7 @@ For get help type: system_stat --help"
                     print!("| # total disks count: {}", disks_data.len());
                 }
                 "space" => { 
-                    let disks_space = disk_data::get_disks_space_data();
+                    let disks_space = disk_data::get_disks_space_data(); // get disks space data
 
                     // print disks data about space
                     println!("| > Disks space");
@@ -169,7 +176,7 @@ For get help type: system_stat --help"
                     }
                 }
                 "kind" => {
-                    let disks_data = disk_data::get_disks_kind();
+                    let disks_data = disk_data::get_disks_kind(); // get disks kind data
 
                     // print disks data about disk kind
                     println!("| > Disks kind");
@@ -189,7 +196,7 @@ For get help type: system_stat --help"
             // match cpu data subcommands
             match cpu_data_subcommand {
                 Some(CpuDataSubCommand::BaseData) => {
-                    let cpu_data = cpu_data::get_cpu_data();
+                    let cpu_data = cpu_data::get_cpu_data(); // get CPU data
                 
                     println!("| > CPU data");
                     println!("|");
@@ -207,7 +214,7 @@ For get help type: system_stat --help"
             // match ram data subcommands
             match ram_data_subcommand {
                 Some(RamDataSubCommand::BaseData) => {
-                    let ram_base_data = ram_data::get_base_ram_data();
+                    let ram_base_data = ram_data::get_base_ram_data(); // get RAM data
 
                     println!("| > RAM data");
                     println!("|");
@@ -218,7 +225,7 @@ For get help type: system_stat --help"
                 },
                 Some(RamDataSubCommand::Observe) =>
                     ram_data::observe_ram_usage()?, // launch obseving RAM data,
-                None => {}
+                None => {} // nothing to do
             }
         }
         Some(Command::ProcData { process_data_subcommand }) => {
@@ -243,7 +250,7 @@ For get help type: system_stat --help"
                         print!("| Processes by name: '{}' not found.", proc_name);
                     }
                 }
-                None => {},
+                None => {} // nothing to do
             }
         }
         None => {} // nothing to do
