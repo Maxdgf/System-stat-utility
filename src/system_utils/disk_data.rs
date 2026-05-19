@@ -48,17 +48,17 @@ pub fn get_all_disks_data() -> Vec<Disk> {
                 name: name.unwrap_or("Unknown").to_string(),
                 mount_point: mount_point.unwrap_or("Unknown").to_string(),
                 file_system: file_system.unwrap_or("Unknown").to_string(),
-                is_read_only: is_read_only,
-                is_removable: is_removable,
-                available_space: available_space,
-                total_space: total_space,
+                is_read_only,
+                is_removable,
+                available_space,
+                total_space,
                 used_space: total_space - available_space,
-                kind: kind
+                kind
             }
         );
     }
 
-    return disks_data;
+    disks_data
 }
 
 /// Returns all disks space data.
@@ -76,14 +76,14 @@ pub fn get_disks_space_data() -> Vec<DiskSpace> {
         disks_space.push(
             DiskSpace {
                 name: name.unwrap_or("Unknown").to_string(),
-                available_space: available_space,
-                total_space: total_space,
-                used_space: used_space
+                available_space,
+                total_space,
+                used_space
             }
         )
     }
 
-    return disks_space;
+    disks_space
 }
 
 /// Returns all disks kind data.
@@ -99,10 +99,10 @@ pub fn get_disks_kind() -> Vec<DiskKind> {
         disks_kind.push(
             DiskKind {
                 name: name.unwrap_or("Unknown").to_string(),
-                kind: kind
+                kind
             }
         );
     }
 
-    return disks_kind;
+    disks_kind
 }
