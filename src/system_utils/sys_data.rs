@@ -15,10 +15,10 @@ pub fn get_sys_data() -> SysData {
     let os_version = System::os_version();         // os version
     let host_name = System::host_name();           // system host name
 
-    return SysData {
+    SysData {
         name: name.unwrap_or(String::from("Unknown")),
         kernel_version: kernel_version.unwrap_or(String::from("Unknown")),
         os_version: os_version.unwrap_or(String::from("Unknown")),
         host_name: host_name.unwrap_or(String::from("Unknown"))
-    };
+    }
 }

@@ -1,4 +1,4 @@
-use std::{io::{ self, stdout }, thread, time::Duration};
+use std::{ io::{ self, stdout }, thread, time::Duration };
 
 use crossterm::{
     cursor, 
@@ -21,10 +21,10 @@ pub fn get_base_ram_data() -> Ram {
         RefreshKind::nothing().with_memory(MemoryRefreshKind::everything())
     );
 
-    return Ram {
+    Ram {
         total_ram: system.total_memory() as f64 / 1073741824.0, // total RAM size in GB
         total_swap: system.total_swap() as f64 / 1073741824.0   // total RAM swap size in GB
-    };
+    }
 }
 
 /// Launches the RAM usage observing process. It displays data until CTRL + C is pressed.

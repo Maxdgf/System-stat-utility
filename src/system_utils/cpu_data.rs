@@ -9,30 +9,33 @@ use crossterm::{
     terminal::{ self, EnterAlternateScreen, LeaveAlternateScreen } 
 };
 
+/// CPU data.
 pub struct Cpu {
     pub physical_cores_count: usize,
     pub cpus_count: usize
 }
 
+/// Returns CPU data.
 pub fn get_cpu_data() -> Cpu {
     let system = System::new_with_specifics(
         RefreshKind::nothing().with_cpu(CpuRefreshKind::everything())
     );
 
-    return Cpu {
+    Cpu {
         physical_cores_count: System::physical_core_count().unwrap_or(0),
         cpus_count: system.cpus().len(),
     }
 }
 
+/// Launches the CPU cores usage observing process. It displays data until CTRL + C is pressed.
 pub fn observe_cpu_data(show_brand: &bool, show_freq: &bool) -> Result<(), Box<io::Error>> {
     // refresh system CPU specifics
     let mut system = System::new_with_specifics(
         RefreshKind::nothing().with_cpu(CpuRefreshKind::everything())
     );
 
-    terminal::enable_raw_mode()?; // enable terminal raw mode
-    execute!(stdout(), EnterAlternateScreen)?;
+    terminal::enable_raw_mode()?;              // enable terminal raw mode
+    execute!(stdout(), EnterAlternateScreen)?; // enter to alternate screen in terminal
 
     loop {
         if event::poll(Duration::from_millis(100))? {
@@ -78,8 +81,8 @@ pub fn observe_cpu_data(show_brand: &bool, show_freq: &bool) -> Result<(), Box<i
         }
     }
 
-    terminal::disable_raw_mode()?; // disable terminal raw mode
-    execute!(stdout(), LeaveAlternateScreen)?;
+    terminal::disable_raw_mode()?;             // disable terminal raw mode
+    execute!(stdout(), LeaveAlternateScreen)?; // leave the alternate screen in terminal
 
     Ok(())
 }

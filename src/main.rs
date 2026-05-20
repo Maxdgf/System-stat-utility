@@ -12,7 +12,7 @@ use clap::{ Parser, Subcommand };
 
 use crate::system_utils::{ cpu_data, sys_data, ram_data, process_data, disk_data };
 
-/// System stat is easy and helpful util, that helps you get varios data about your system.                                       
+/// System stat is easy and helpful util, that helps you get various data about your system.
 #[derive(Parser)]
 #[command(version="1.0.0")]
 struct Cli {
@@ -121,16 +121,16 @@ For get help type: system_stat --help"
             )
         }
         Some(Command::SysData) => {
-            let systemdata = sys_data::get_sys_data(); // get system data
+            let system_data = sys_data::get_sys_data(); // get system data
             
             // print system data
             println!("| > System data");
             println!("|");
             println!("|\\________________");
-            println!("| - name:           {}", systemdata.name);
-            println!("| - host name:      {}", systemdata.host_name);
-            println!("| - kernel version: {}", systemdata.kernel_version);
-            println!("| - OS version:     {}", systemdata.os_version);
+            println!("| - name:           {}", system_data.name);
+            println!("| - host name:      {}", system_data.host_name);
+            println!("| - kernel version: {}", system_data.kernel_version);
+            println!("| - OS version:     {}", system_data.os_version);
             println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
         }
         Some(Command::DiskData { data }) => {
@@ -224,7 +224,7 @@ For get help type: system_stat --help"
                     println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
                 },
                 Some(RamDataSubCommand::Observe) =>
-                    ram_data::observe_ram_usage()?, // launch obseving RAM data,
+                    ram_data::observe_ram_usage()?, // launch observing RAM data,
                 None => {} // nothing to do
             }
         }
@@ -236,7 +236,7 @@ For get help type: system_stat --help"
                     print!("Current process PID: {}", current_pid);
                 }
                 Some(ProcDataSubCommand::ProcsByName { proc_name, exact }) => {
-                    let processes_by_name = process_data::get_processes_pid_by_name(proc_name, exact); // proceses by name
+                    let processes_by_name = process_data::get_processes_pid_by_name(proc_name, exact); // processes by name
 
                     println!("| > Processes by name");
 

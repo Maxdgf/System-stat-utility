@@ -33,14 +33,14 @@ pub fn get_all_disks_data() -> Vec<Disk> {
 
     let mut disks_data: Vec<Disk> = Vec::new();
     for disk in &disks {
-        let name = disk.name().to_str();                  // disk name
-        let mount_point = disk.mount_point().to_str();    // disk mount point
-        let file_system = disk.file_system().to_str();    // disk file system
-        let is_read_only = disk.is_read_only();                   // is read only flag
-        let is_removable = disk.is_removable();                   // is removable flag
+        let name = disk.name().to_str();                     // disk name
+        let mount_point = disk.mount_point().to_str();       // disk mount point
+        let file_system = disk.file_system().to_str();       // disk file system
+        let is_read_only = disk.is_read_only();                    // is read only flag
+        let is_removable = disk.is_removable();                    // is removable flag
         let available_space = disk.available_space() / 1073741824; // disk available space in GB
         let total_space = disk.total_space() / 1073741824;         // disk total space in GB
-        let kind = disk.kind().to_string();                     // disk king
+        let kind = disk.kind().to_string();                      // disk king
         
         // push disk data to result vector
         disks_data.push(
@@ -67,7 +67,7 @@ pub fn get_disks_space_data() -> Vec<DiskSpace> {
 
     let mut disks_space: Vec<DiskSpace> = Vec::new();
     for disk in &disks {
-        let name = disk.name().to_str();                  // disk name
+        let name = disk.name().to_str();                    // disk name
         let available_space = disk.available_space() / 1073741824; // disk available space in GB
         let total_space = disk.total_space() / 1073741824;         // disk total space in GB
         let used_space = total_space - available_space;            // disk used space
@@ -92,7 +92,7 @@ pub fn get_disks_kind() -> Vec<DiskKind> {
 
     let mut disks_kind: Vec<DiskKind> = Vec::new();
     for disk in &disks {
-        let name = disk.name().to_str(); // disk name
+        let name = disk.name().to_str();  // disk name
         let kind = disk.kind().to_string();    // disk kind
         
         // push disk data to result vector
