@@ -126,12 +126,13 @@ For get help type: system_stat --help"
             // print system data
             println!("| > System data");
             println!("|");
-            println!("|\\________________");
+            println!("|\\_________________");
             println!("| - name:           {}", system_data.name);
             println!("| - host name:      {}", system_data.host_name);
             println!("| - kernel version: {}", system_data.kernel_version);
             println!("| - OS version:     {}", system_data.os_version);
             println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+            print!("|");
         }
         Some(Command::DiskData { data }) => {
             // match 'data' arg value - full, space and kind
@@ -143,21 +144,21 @@ For get help type: system_stat --help"
                     println!("| > Disks data");
                     println!("|");
 
-                    for data in &disks_data {
+                    for disk in &disks_data {
                         println!("|\\_________________");
-                        println!("| - name:            {}", data.name);
-                        println!("| - mount point:     {}", data.mount_point);
-                        println!("| - file system:     {}", data.file_system);
-                        println!("| - read-only:       {}", data.is_read_only);
-                        println!("| - removable:       {}", data.is_removable);
-                        println!("| - available space: {} GB", data.available_space);
-                        println!("| - total space:     {} GB", data.total_space);
-                        println!("| - used space:      {} GB", data.used_space);
-                        println!("| - kind:            {}", data.kind);
+                        println!("| - name:            {}", disk.name);
+                        println!("| - mount point:     {}", disk.mount_point);
+                        println!("| - file system:     {}", disk.file_system);
+                        println!("| - read-only:       {}", disk.is_read_only);
+                        println!("| - removable:       {}", disk.is_removable);
+                        println!("| - available space: {} GB", disk.available_space);
+                        println!("| - total space:     {} GB", disk.total_space);
+                        println!("| - used space:      {} GB", disk.used_space);
+                        println!("| - kind:            {}", disk.kind);
                         println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
                     }
 
-                    print!("| # total disks count: {}", disks_data.len());
+                    print!("|");
                 }
                 "space" => { 
                     let disks_space = disk_data::get_disks_space_data(); // get disks space data
@@ -174,6 +175,8 @@ For get help type: system_stat --help"
                         println!("| - used space:      {} GB", data.used_space);
                         println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
                     }
+
+                    print!("|");
                 }
                 "kind" => {
                     let disks_data = disk_data::get_disks_kind(); // get disks kind data
@@ -188,6 +191,8 @@ For get help type: system_stat --help"
                         println!("| - kind:            {}", data.kind);
                         println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
                     }
+
+                    print!("|");
                 }
                 _ => {} // nothing to do
             }
@@ -204,6 +209,7 @@ For get help type: system_stat --help"
                     println!("| - CPU's count:          {}", cpu_data.cpus_count);
                     println!("| - physical cores count: {}", cpu_data.physical_cores_count);
                     println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+                    print!("|");
                 }
                 Some(CpuDataSubCommand::Observe { show_brand, show_freq }) => 
                     cpu_data::observe_cpu_data(show_brand, show_freq)?, // launch observing CPU data
@@ -222,6 +228,7 @@ For get help type: system_stat --help"
                     println!("| - total RAM:            {:.2} GB", ram_base_data.total_ram);
                     println!("| - total RAM swap:       {:.2} GB", ram_base_data.total_swap);
                     println!("|/‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾‾");
+                    print!("|");
                 },
                 Some(RamDataSubCommand::Observe) =>
                     ram_data::observe_ram_usage()?, // launch observing RAM data,
@@ -242,10 +249,15 @@ For get help type: system_stat --help"
 
                     // print processes with PID and name
                     if !processes_by_name.is_empty() {
+                        println!("|");
                         println!("| Found processes: {}", processes_by_name.len());
-                        for process in processes_by_name {
+                        println!("|");
+
+                        for process in processes_by_name.iter() {
                             println!("| PID: {} - name: {}", process.pid, process.name);
                         }
+
+                        print!("|");
                     } else {
                         print!("| Processes by name: '{}' not found.", proc_name);
                     }
