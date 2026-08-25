@@ -91,7 +91,7 @@ enum ProcDataSubCommand {
         #[arg(long)]
         proc_name: String,
         
-        /// Show proceses exactly by name
+        /// Show processes exactly by name
         #[arg(short, long, default_value_t=false)]
         exact: bool
     }
